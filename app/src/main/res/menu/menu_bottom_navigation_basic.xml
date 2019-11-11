@@ -3,22 +3,27 @@
 
     <item
         android:id="@+id/navigation_explore"
-        android:icon="@drawable/ic_recent"
+        android:icon="@drawable/ic_explore"
         android:title="Explore" />
 
     <item
         android:id="@+id/navigation_support"
-        android:icon="@drawable/ic_favorites"
+        android:icon="@drawable/ic_support"
         android:title="Support" />
 
     <item
+        android:id="@+id/navigation_manage"
+        android:icon="@drawable/ic_settings"
+        android:title="Manage" />
+
+    <item
         android:id="@+id/navigation_account"
-        android:icon="@drawable/ic_nearby"
+        android:icon="@drawable/ic_account"
         android:title="Account" />
 
     <item
-        android:id="@+id/navigation_notif"
-        android:icon="@drawable/ic_nearby"
-        android:title="Notif" />
+        android:id="@+id/navigation_notification"
+        android:icon="@drawable/ic_notifications"
+        android:title="Notification" />
 
 </menu>
