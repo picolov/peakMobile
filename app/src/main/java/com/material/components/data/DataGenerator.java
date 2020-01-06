@@ -6,6 +6,8 @@ import android.content.res.TypedArray;
 import com.material.components.R;
 import com.material.components.model.Image;
 import com.material.components.model.News;
+import com.material.components.model.People;
+import com.material.components.utils.Tools;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -103,6 +105,29 @@ public class DataGenerator {
     }
 
     /**
+     * Generate dummy data people
+     *
+     * @param ctx android context
+     * @return list of object
+     */
+    public static List<People> getPeopleData(Context ctx) {
+        List<People> items = new ArrayList<>();
+        TypedArray drw_arr = ctx.getResources().obtainTypedArray(R.array.people_images);
+        String name_arr[] = ctx.getResources().getStringArray(R.array.people_names);
+
+        for (int i = 0; i < drw_arr.length(); i++) {
+            People obj = new People();
+            obj.image = drw_arr.getResourceId(i, -1);
+            obj.name = "Notification " + i;
+            obj.email = Tools.getEmailFromName(obj.name);
+            obj.imageDrw = ctx.getResources().getDrawable(obj.image);
+            items.add(obj);
+        }
+        Collections.shuffle(items);
+        return items;
+    }
+
+    /**
      * Generate dummy data News
      *
      * @param ctx   android context
@@ -120,7 +145,7 @@ public class DataGenerator {
 
         for (int i = 0; i < count; i++) {
             News obj = new News();
-            obj.image = images.get(getRandomIndex(images.size()));
+            obj.image = "https://via.placeholder.com/500x375.png?text=sample+image";
             obj.title = titles.get(getRandomIndex(titles.size()));
             obj.subtitle = cat[getRandomIndex(cat.length)];
             obj.date = full_date.get(getRandomIndex(full_date.size()));

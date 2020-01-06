@@ -29,7 +29,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Manage Aplication"
+                    android:text="Kelola Data Aplikasi"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
                     android:textColor="@color/grey_80"
                     android:textStyle="bold" />
@@ -37,7 +37,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="View and edit various data"
+                    android:text="Menampilkan dan memodifikasi data aplikasi"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/grey_80" />
 
@@ -46,8 +46,7 @@
             <com.mikhaellopez.circularimageview.CircularImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                app:srcCompat="@drawable/ic_settings_applications"
-                app:tint="@color/grey_700"
+                app:srcCompat="@drawable/ic_seagate"
                 app:civ_shadow="true"
                 app:civ_shadow_radius="0"
                 app:civ_border="false" />

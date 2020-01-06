@@ -4,26 +4,26 @@
     <item
         android:id="@+id/navigation_explore"
         android:icon="@drawable/ic_explore"
-        android:title="Explore" />
+        android:title="Eksplor" />
 
     <item
         android:id="@+id/navigation_support"
         android:icon="@drawable/ic_support"
-        android:title="Support" />
+        android:title="Bantuan" />
 
     <item
         android:id="@+id/navigation_manage"
         android:icon="@drawable/ic_settings"
-        android:title="Manage" />
-
-    <item
-        android:id="@+id/navigation_account"
-        android:icon="@drawable/ic_account"
-        android:title="Account" />
+        android:title="Kelola" />
 
     <item
         android:id="@+id/navigation_notification"
         android:icon="@drawable/ic_notifications"
-        android:title="Notification" />
+        android:title="Notifikasi" />
+
+    <item
+        android:id="@+id/navigation_account"
+        android:icon="@drawable/ic_account"
+        android:title="Akun" />
 
 </menu>

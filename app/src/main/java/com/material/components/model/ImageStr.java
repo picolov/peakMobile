@@ -2,11 +2,12 @@ package com.material.components.model;
 
 import android.graphics.drawable.Drawable;
 
-public class News {
+public class ImageStr {
 
     public String image;
     public Drawable imageDrw;
-    public String title;
-    public String subtitle;
-    public String date;
+    public String name;
+    public String brief;
+    public Integer counter = null;
+
 }

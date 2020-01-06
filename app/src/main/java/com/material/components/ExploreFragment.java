@@ -25,15 +25,23 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
+import com.google.gson.JsonObject;
 import com.material.components.activity.MainMenu;
 import com.material.components.adapter.AdapterListNews;
+import com.material.components.api.SpektaAPI;
+import com.material.components.api.SpektaInterface;
 import com.material.components.data.DataGenerator;
+import com.material.components.helper.DownloadImageTask;
 import com.material.components.model.Image;
 import com.material.components.model.News;
 import com.material.components.utils.Tools;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -71,25 +79,19 @@ public class ExploreFragment extends Fragment {
     private static int[] array_image_place = {
             R.drawable.image_12,
             R.drawable.image_13,
-            R.drawable.image_14,
-            R.drawable.image_15,
-            R.drawable.image_8,
+            R.drawable.image_14
     };
 
     private static String[] array_title_place = {
-            "Dui fringilla ornare finibus, orci odio",
-            "Mauris sagittis non elit quis fermentum",
-            "Mauris ultricies augue sit amet est sollicitudin",
-            "Suspendisse ornare est ac auctor pulvinar",
-            "Vivamus laoreet aliquam ipsum eget pretium",
+            "Image Event 01",
+            "Image Event 02",
+            "Image Event 03"
     };
 
     private static String[] array_brief_place = {
-            "Foggy Hill",
-            "The Backpacker",
-            "River Forest",
-            "Mist Mountain",
-            "Side Park",
+            "Mall Taman Anggrek",
+            "Plaza Indonesia",
+            "Mall Puri Indah"
     };
 
     public ExploreFragment() {
@@ -133,6 +135,9 @@ public class ExploreFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        new DownloadImageTask((ImageView) getView().findViewById(R.id.dist_image01)).execute("http://spektasolusi.com:1337/uploads/955bb2a3974b449db7f8bcaadc742d6f.jpg");
+        new DownloadImageTask((ImageView) getView().findViewById(R.id.dist_image02)).execute("http://spektasolusi.com:1337/uploads/6034c8dbe5974697817a795f8cc466fa.gif");
+        new DownloadImageTask((ImageView) getView().findViewById(R.id.dist_image03)).execute("http://spektasolusi.com:1337/uploads/852481d0e5584ceb8f7273887871ac49.jpg");
 
         recyclerView = (RecyclerView) getView().findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -192,6 +197,44 @@ public class ExploreFragment extends Fragment {
         });
 
         startAutoSlider(adapterImageSlider.getCount());
+
+        SpektaInterface api = new SpektaAPI().getInstance();
+        Call<List<JsonObject>> call = api.getArticles();
+        call.enqueue(new Callback<List<JsonObject>>() {
+            @Override
+            public void onResponse(Call<List<JsonObject>> call, Response<List<JsonObject>> response) {
+                if(response.isSuccessful()) {
+                    List<JsonObject> objList = response.body();
+                    List<News> items = new ArrayList<>();
+                    for (JsonObject obj:objList) {
+                        News news = new News();
+                        news.image = "http://spektasolusi.com:1337/" + obj.getAsJsonObject("image").get("url").getAsString();
+                        news.title = obj.get("description").getAsString();
+                        news.subtitle = obj.get("title").getAsString();
+                        news.date = obj.get("createdAt").getAsString();
+                        items.add(news);
+                        System.out.println("------------------>  " + obj.get("title") + ", image: " + obj.getAsJsonObject("image").get("url").getAsString());
+                    }
+
+                    //set data and list adapter
+                    mAdapter = new AdapterListNews(getContext(), items, R.layout.item_news_light);
+                    recyclerView.setAdapter(mAdapter);
+                    // on item list clicked
+                    mAdapter.setOnItemClickListener(new AdapterListNews.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(View view, News obj, int position) {
+                            Snackbar.make(getView().findViewById(R.id.parent_view), "Item " + obj.subtitle + " clicked", Snackbar.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    System.out.println(response.errorBody());
+                }
+            }
+            @Override
+            public void onFailure(Call<List<JsonObject>> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event

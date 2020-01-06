@@ -1,70 +1,61 @@
 package com.material.components.adapter;
 
 import android.content.Context;
-import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.material.components.R;
-import com.material.components.model.News;
+import com.material.components.model.ImageStr;
 import com.material.components.utils.Tools;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdapterListNews extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class AdapterGridTwoLine extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<News> items = new ArrayList<>();
+    private List<ImageStr> items = new ArrayList<>();
+
+    private OnLoadMoreListener onLoadMoreListener;
 
     private Context ctx;
-
-    @LayoutRes
-    private int layout_id;
-
     private OnItemClickListener mOnItemClickListener;
 
     public interface OnItemClickListener {
-        void onItemClick(View view, News obj, int position);
+        void onItemClick(View view, ImageStr obj, int position);
     }
 
     public void setOnItemClickListener(final OnItemClickListener mItemClickListener) {
         this.mOnItemClickListener = mItemClickListener;
     }
 
-    public AdapterListNews(Context context, List<News> items, @LayoutRes int layout_id) {
+    public AdapterGridTwoLine(Context context, List<ImageStr> items) {
         this.items = items;
         ctx = context;
-        this.layout_id = layout_id;
     }
 
     public class OriginalViewHolder extends RecyclerView.ViewHolder {
         public ImageView image;
-        public TextView title;
-        public TextView subtitle;
-        public TextView date;
+        public TextView name;
+        public TextView brief;
         public View lyt_parent;
 
         public OriginalViewHolder(View v) {
             super(v);
-            image = v.findViewById(R.id.image);
-            title = v.findViewById(R.id.title);
-            subtitle = v.findViewById(R.id.subtitle);
-            date = v.findViewById(R.id.date);
-            lyt_parent = v.findViewById(R.id.lyt_parent);
+            image = (ImageView) v.findViewById(R.id.image);
+            name = (TextView) v.findViewById(R.id.name);
+            brief = (TextView) v.findViewById(R.id.brief);
+            lyt_parent = (View) v.findViewById(R.id.lyt_parent);
         }
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder vh;
-        View v = LayoutInflater.from(parent.getContext()).inflate(layout_id, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_grid_image_two_line, parent, false);
         vh = new OriginalViewHolder(v);
         return vh;
     }
@@ -72,20 +63,18 @@ public class AdapterListNews extends RecyclerView.Adapter<RecyclerView.ViewHolde
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+        ImageStr obj = items.get(position);
         if (holder instanceof OriginalViewHolder) {
             OriginalViewHolder view = (OriginalViewHolder) holder;
-
-            News n = items.get(position);
-            view.title.setText(Html.fromHtml(n.title));
-            view.subtitle.setText(n.subtitle);
-            view.date.setText(n.date);
-            Tools.displayImageOriginal(ctx, view.image, n.image);
-
+            view.name.setText(obj.name);
+            view.brief.setText(obj.brief);
+            Tools.displayImageOriginal(ctx, view.image, obj.image);
             view.lyt_parent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (mOnItemClickListener == null) return;
-                    mOnItemClickListener.onItemClick(view, items.get(position), position);
+                    if (mOnItemClickListener != null) {
+                        mOnItemClickListener.onItemClick(view, items.get(position), position);
+                    }
                 }
             });
         }
@@ -94,6 +83,14 @@ public class AdapterListNews extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public int getItemCount() {
         return items.size();
+    }
+
+    public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
+        this.onLoadMoreListener = onLoadMoreListener;
+    }
+
+    public interface OnLoadMoreListener {
+        void onLoadMore(int current_page);
     }
 
 }

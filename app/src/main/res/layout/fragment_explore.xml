@@ -119,7 +119,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/spacing_large"
                 android:layout_marginRight="@dimen/spacing_large"
-                android:text="Highlight"
+                android:text="RINGKASAN DATA"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                 android:textColor="@color/grey_80"
                 android:textStyle="bold" />
@@ -134,7 +134,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Recommended Data Statistics"
+                    android:text="Rekomendasi Data Statistik"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
                     android:textColor="@color/grey_40" />
 
@@ -209,7 +209,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="My Sold Products"
+                                android:text="Penjualan Saya"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                                 android:textColor="@color/grey_40" />
 
@@ -282,7 +282,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Product Type"
+                                android:text="Tipe Produk"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                                 android:textColor="@color/grey_40" />
 
@@ -364,7 +364,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="All Sold Products"
+                                android:text="Semua Penjualan"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                                 android:textColor="@color/grey_40" />
 
@@ -437,7 +437,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Seagate Partner"
+                                android:text="Mitra Seagate"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                                 android:textColor="@color/grey_40" />
 
@@ -463,7 +463,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/spacing_large"
                     android:layout_marginRight="@dimen/spacing_large"
-                    android:text="Authorized Partners"
+                    android:text="Distributor Resmi Terpercaya"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                     android:textColor="@color/grey_80"
                     android:textStyle="bold" />
@@ -478,7 +478,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Find Seagate partners in your city"
+                        android:text="Pastikan produk anda bergaransi resmi"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
                         android:textColor="@color/grey_40" />
 
@@ -521,6 +521,7 @@
                                     android:layout_height="240dp">
 
                                     <ImageView
+                                        android:id="@+id/dist_image01"
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:scaleType="centerCrop"
@@ -531,9 +532,9 @@
                                         android:layout_height="wrap_content"
                                         android:layout_alignParentBottom="true"
                                         android:layout_margin="@dimen/spacing_large"
-                                        android:text="Aliquet Et Ante"
+                                        android:text="Astrindo"
                                         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                                        android:textColor="@android:color/white" />
+                                        android:textColor="@android:color/black" />
 
                                 </RelativeLayout>
 
@@ -566,6 +567,7 @@
                                     android:layout_height="240dp">
 
                                     <ImageView
+                                        android:id="@+id/dist_image02"
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:scaleType="centerCrop"
@@ -576,9 +578,9 @@
                                         android:layout_height="wrap_content"
                                         android:layout_alignParentBottom="true"
                                         android:layout_margin="@dimen/spacing_large"
-                                        android:text="Aliquet Et Ante"
+                                        android:text="Jayakom"
                                         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                                        android:textColor="@android:color/white" />
+                                        android:textColor="@android:color/black" />
 
                                 </RelativeLayout>
 
@@ -611,6 +613,7 @@
                                     android:layout_height="240dp">
 
                                     <ImageView
+                                        android:id="@+id/dist_image03"
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:scaleType="centerCrop"
@@ -621,9 +624,9 @@
                                         android:layout_height="wrap_content"
                                         android:layout_alignParentBottom="true"
                                         android:layout_margin="@dimen/spacing_large"
-                                        android:text="Aliquet Et Ante"
+                                        android:text="SMI"
                                         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                                        android:textColor="@android:color/white" />
+                                        android:textColor="@android:color/black" />
 
                                 </RelativeLayout>
 
@@ -650,7 +653,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/spacing_large"
                 android:layout_marginRight="@dimen/spacing_large"
-                android:text="Latest News"
+                android:text="Berita Terbaru"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                 android:textColor="@color/grey_80"
                 android:textStyle="bold" />
@@ -665,7 +668,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Updated latest news for you"
+                    android:text="Berita terbaru dan terhangat untuk anda"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
                     android:textColor="@color/grey_40" />
 

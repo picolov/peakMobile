@@ -6,28 +6,38 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.material.components.adapter.AdapterListSectioned;
+import com.google.gson.JsonObject;
+import com.material.components.api.SpektaAPI;
+import com.material.components.api.SpektaInterface;
 import com.material.components.data.DataGenerator;
-import com.material.components.model.People;
+import com.material.components.adapter.AdapterGridTwoLine;
+import com.material.components.model.ImageStr;
+import com.material.components.widget.SpacingItemDecoration;
+import com.material.components.utils.Tools;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link NotificationFragment.OnFragmentInteractionListener} interface
+ * {@link CatalogFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link NotificationFragment#newInstance} factory method to
+ * Use the {@link CatalogFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NotificationFragment extends Fragment {
+public class CatalogFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -36,7 +46,7 @@ public class NotificationFragment extends Fragment {
     private View parent_view;
 
     private RecyclerView recyclerView;
-    private AdapterListSectioned mAdapter;
+    private AdapterGridTwoLine mAdapter;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -44,7 +54,7 @@ public class NotificationFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public NotificationFragment() {
+    public CatalogFragment() {
         // Required empty public constructor
     }
 
@@ -54,11 +64,11 @@ public class NotificationFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment NotificationFragment.
+     * @return A new instance of fragment CatalogFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static NotificationFragment newInstance(String param1, String param2) {
-        NotificationFragment fragment = new NotificationFragment();
+    public static CatalogFragment newInstance(String param1, String param2) {
+        CatalogFragment fragment = new CatalogFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -79,37 +89,51 @@ public class NotificationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_notification, container, false);
+        return inflater.inflate(R.layout.fragment_catalog, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         recyclerView = (RecyclerView) getView().findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        recyclerView.addItemDecoration(new SpacingItemDecoration(2, Tools.dpToPx(getContext(), 3), true));
         recyclerView.setHasFixedSize(true);
 
-        List<People> items = DataGenerator.getPeopleData(getContext());
-        items.addAll(DataGenerator.getPeopleData(getContext()));
-        items.addAll(DataGenerator.getPeopleData(getContext()));
-
-        int sect_count = 0;
-        int sect_idx = 0;
-        List<String> months = DataGenerator.getStringsMonth(getContext());
-        for (int i = 0; i < items.size() / 6; i++) {
-            items.add(sect_count, new People(months.get(sect_idx), true));
-            sect_count = sect_count + 5;
-            sect_idx++;
-        }
-
-        //set data and list adapter
-        mAdapter = new AdapterListSectioned(getContext(), items);
-        recyclerView.setAdapter(mAdapter);
-
-        // on item list clicked
-        mAdapter.setOnItemClickListener(new AdapterListSectioned.OnItemClickListener() {
+        List<ImageStr> items = new ArrayList<>();
+        SpektaInterface api = new SpektaAPI().getInstance();
+        Call<List<JsonObject>> call = api.getProducts();
+        call.enqueue(new Callback<List<JsonObject>>() {
             @Override
-            public void onItemClick(View view, People obj, int position) {
-                Snackbar.make(parent_view, "Item " + obj.name + " clicked", Snackbar.LENGTH_SHORT).show();
+            public void onResponse(Call<List<JsonObject>> call, Response<List<JsonObject>> response) {
+                if(response.isSuccessful()) {
+                    List<JsonObject> objList = response.body();
+                    List<ImageStr> items = new ArrayList<>();
+                    for (JsonObject obj:objList) {
+                        ImageStr news = new ImageStr();
+                        news.image = "http://spektasolusi.com:1337/" + obj.getAsJsonObject("image").get("url").getAsString();
+                        news.name = obj.get("productFamily") != null?obj.get("productFamily").getAsString():"";
+                        news.brief = obj.get("modelCode")!=null?obj.get("modelCode").getAsString():"";
+                        items.add(news);
+                        System.out.println("------------------>  " + obj.get("name") + ", image: " + obj.getAsJsonObject("image").get("url").getAsString());
+                    }
+
+                    //set data and list adapter
+                    mAdapter = new AdapterGridTwoLine(getContext(), items);
+                    recyclerView.setAdapter(mAdapter);
+                    // on item list clicked
+                    mAdapter.setOnItemClickListener(new AdapterGridTwoLine.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(View view, ImageStr obj, int position) {
+                            Snackbar.make(getView().findViewById(R.id.parent_view), "Item " + obj.name + " clicked", Snackbar.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    System.out.println(response.errorBody());
+                }
+            }
+            @Override
+            public void onFailure(Call<List<JsonObject>> call, Throwable t) {
+                t.printStackTrace();
             }
         });
     }
