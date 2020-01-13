@@ -5,7 +5,9 @@ import com.google.gson.JsonObject;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface SpektaInterface {
@@ -17,4 +19,7 @@ public interface SpektaInterface {
 
     @GET("products/")
     Call<List<JsonObject>> getProducts();
+
+    @POST("auth/local")
+    Call<JsonObject> login(@Body JsonObject loginData);
 }

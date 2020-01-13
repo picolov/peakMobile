@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parent_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -145,6 +146,7 @@
                 android:layout_height="@dimen/spacing_middle" />
 
             <LinearLayout
+                android:id="@+id/stat_row01"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -181,6 +183,7 @@
                                 app:srcCompat="@drawable/shape_circle" />
 
                             <ImageView
+                                android:id="@+id/stat01_icon"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
                                 android:layout_centerInParent="true"
@@ -199,17 +202,19 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/stat01_value"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="120"
+                                android:text="+62 27351273"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
                                 android:textColor="@color/grey_60"
                                 android:textStyle="bold" />
 
                             <TextView
+                                android:id="@+id/stat01_title"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Penjualan Saya"
+                                android:text="Service Center"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                                 android:textColor="@color/grey_40" />
 
@@ -253,6 +258,7 @@
                                 app:srcCompat="@drawable/shape_circle" />
 
                             <ImageView
+                                android:id="@+id/stat02_icon"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
                                 android:layout_centerInParent="true"
@@ -271,18 +277,20 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/stat02_value"
                                 android:layout_width="wrap_content"
                                 android:layout_height="0dp"
                                 android:layout_weight="1"
-                                android:text="89"
+                                android:text="+62 77733334"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
                                 android:textColor="@color/grey_60"
                                 android:textStyle="bold" />
 
                             <TextView
+                                android:id="@+id/stat02_title"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Tipe Produk"
+                                android:text="Call Center"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                                 android:textColor="@color/grey_40" />
 
@@ -299,6 +307,7 @@
                 android:layout_height="@dimen/spacing_middle" />
 
             <LinearLayout
+                android:id="@+id/stat_row02"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -335,6 +344,7 @@
                                 app:srcCompat="@drawable/shape_circle" />
 
                             <ImageView
+                                android:id="@+id/stat03_icon"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
                                 android:layout_centerInParent="true"
@@ -353,6 +363,7 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/stat03_value"
                                 android:layout_width="wrap_content"
                                 android:layout_height="0dp"
                                 android:layout_weight="1"
@@ -362,9 +373,10 @@
                                 android:textStyle="bold" />
 
                             <TextView
+                                android:id="@+id/stat03_title"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Semua Penjualan"
+                                android:text="Poin Trip"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                                 android:textColor="@color/grey_40" />
 
@@ -408,6 +420,7 @@
                                 app:srcCompat="@drawable/shape_circle" />
 
                             <ImageView
+                                android:id="@+id/stat04_icon"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
                                 android:layout_centerInParent="true"
@@ -426,18 +439,20 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/stat04_value"
                                 android:layout_width="wrap_content"
                                 android:layout_height="0dp"
                                 android:layout_weight="1"
-                                android:text="179"
+                                android:text="Program"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
                                 android:textColor="@color/grey_60"
                                 android:textStyle="bold" />
 
                             <TextView
+                                android:id="@+id/stat04_title"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Mitra Seagate"
+                                android:text="Klik untuk detail"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                                 android:textColor="@color/grey_40" />
 

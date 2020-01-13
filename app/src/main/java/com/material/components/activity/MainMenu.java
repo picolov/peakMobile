@@ -41,6 +41,7 @@ public class MainMenu extends AppCompatActivity implements SupportFragment.OnFra
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         parent_view = findViewById(android.R.id.content);

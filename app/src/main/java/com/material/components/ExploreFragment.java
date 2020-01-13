@@ -2,21 +2,18 @@ package com.material.components;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -26,7 +23,6 @@ import android.widget.TextView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.google.gson.JsonObject;
-import com.material.components.activity.MainMenu;
 import com.material.components.adapter.AdapterListNews;
 import com.material.components.api.SpektaAPI;
 import com.material.components.api.SpektaInterface;
@@ -44,26 +40,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ExploreFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ExploreFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ExploreFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private View parent_view;
 
     private ViewPager viewPager;
     private LinearLayout layout_dots;
     private ExploreFragment.AdapterImageSlider adapterImageSlider;
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -76,37 +60,24 @@ public class ExploreFragment extends Fragment {
     private RecyclerView recyclerView;
     private AdapterListNews mAdapter;
 
-    private static int[] array_image_place = {
-            R.drawable.image_12,
-            R.drawable.image_13,
-            R.drawable.image_14
+    private static String[] array_image_place = {
+            "http://spektasolusi.com:1337/uploads/644969759f84409fab2d210f0ce4cdde.jpg",
+            "http://spektasolusi.com:1337/uploads/f0562757c2694064bb9da9e1269fa9cf.jpg"
     };
 
     private static String[] array_title_place = {
-            "Image Event 01",
-            "Image Event 02",
-            "Image Event 03"
+            "Seagate Support Indonesia",
+            "Quiz - Februari 2020"
     };
 
     private static String[] array_brief_place = {
-            "Mall Taman Anggrek",
-            "Plaza Indonesia",
-            "Mall Puri Indah"
+            "Your One Stop Solution",
+            "Klik untuk Detail dan Pemenang"
     };
 
     public ExploreFragment() {
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ExploreFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static ExploreFragment newInstance(String param1, String param2) {
         ExploreFragment fragment = new ExploreFragment();
         Bundle args = new Bundle();
@@ -123,7 +94,6 @@ public class ExploreFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
     }
 
     @Override
@@ -135,11 +105,27 @@ public class ExploreFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        new DownloadImageTask((ImageView) getView().findViewById(R.id.dist_image01)).execute("http://spektasolusi.com:1337/uploads/955bb2a3974b449db7f8bcaadc742d6f.jpg");
-        new DownloadImageTask((ImageView) getView().findViewById(R.id.dist_image02)).execute("http://spektasolusi.com:1337/uploads/6034c8dbe5974697817a795f8cc466fa.gif");
-        new DownloadImageTask((ImageView) getView().findViewById(R.id.dist_image03)).execute("http://spektasolusi.com:1337/uploads/852481d0e5584ceb8f7273887871ac49.jpg");
+        final View dView = getView();
+        // diff between login and not login
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        boolean isLogin = sharedPref.getBoolean("isLogin", false);
+        ImageView stat01_icon = dView.findViewById(R.id.stat01_icon);
+        TextView stat01_title = dView.findViewById(R.id.stat01_title);
+        TextView stat01_value = dView.findViewById(R.id.stat01_value);
+        if (isLogin) {
+            stat01_icon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_person));
+            stat01_title.setText("title-login");
+            stat01_value.setText("value-login");
+        } else {
+            stat01_icon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_phone));
+            stat01_title.setText("title-no login");
+            stat01_value.setText("value-no login");
+        }
+        new DownloadImageTask((ImageView) dView.findViewById(R.id.dist_image01)).execute("http://spektasolusi.com:1337/uploads/955bb2a3974b449db7f8bcaadc742d6f.jpg");
+        new DownloadImageTask((ImageView) dView.findViewById(R.id.dist_image02)).execute("http://spektasolusi.com:1337/uploads/6034c8dbe5974697817a795f8cc466fa.gif");
+        new DownloadImageTask((ImageView) dView.findViewById(R.id.dist_image03)).execute("http://spektasolusi.com:1337/uploads/852481d0e5584ceb8f7273887871ac49.jpg");
 
-        recyclerView = (RecyclerView) getView().findViewById(R.id.recyclerView);
+        recyclerView = (RecyclerView) dView.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
 
@@ -153,32 +139,31 @@ public class ExploreFragment extends Fragment {
         mAdapter.setOnItemClickListener(new AdapterListNews.OnItemClickListener() {
             @Override
             public void onItemClick(View view, News obj, int position) {
-                Snackbar.make(getView().findViewById(R.id.parent_view), "Item " + obj.title + " clicked", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(dView.findViewById(R.id.parent_view), "Item " + obj.title + " clicked", Snackbar.LENGTH_SHORT).show();
             }
         });
 
-        layout_dots = (LinearLayout) getView().findViewById(R.id.layout_dots);
-        viewPager = (ViewPager) getView().findViewById(R.id.pager);
+        layout_dots = (LinearLayout) dView.findViewById(R.id.layout_dots);
+        viewPager = (ViewPager) dView.findViewById(R.id.pager);
         adapterImageSlider = new ExploreFragment.AdapterImageSlider(getActivity(), new ArrayList<Image>());
 
-        final List<Image> items = new ArrayList<>();
+        final List<Image> bannerItems = new ArrayList<>();
         for (int i = 0; i < array_image_place.length; i++) {
             Image obj = new Image();
-            obj.image = array_image_place[i];
-            obj.imageDrw = getResources().getDrawable(obj.image);
+            obj.url = array_image_place[i];
             obj.name = array_title_place[i];
             obj.brief = array_brief_place[i];
-            items.add(obj);
+            bannerItems.add(obj);
         }
 
-        adapterImageSlider.setItems(items);
+        adapterImageSlider.setItems(bannerItems);
         viewPager.setAdapter(adapterImageSlider);
 
         // displaying selected image first
         viewPager.setCurrentItem(0);
         addBottomDots(layout_dots, adapterImageSlider.getCount(), 0);
-        ((TextView) getView().findViewById(R.id.title)).setText(items.get(0).name);
-        ((TextView) getView().findViewById(R.id.brief)).setText(items.get(0).brief);
+        ((TextView) dView.findViewById(R.id.title)).setText(bannerItems.get(0).name);
+        ((TextView) dView.findViewById(R.id.brief)).setText(bannerItems.get(0).brief);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int pos, float positionOffset, int positionOffsetPixels) {
@@ -186,8 +171,10 @@ public class ExploreFragment extends Fragment {
 
             @Override
             public void onPageSelected(int pos) {
-                ((TextView) getView().findViewById(R.id.title)).setText(items.get(pos).name);
-                ((TextView) getView().findViewById(R.id.brief)).setText(items.get(pos).brief);
+                TextView title = dView.findViewById(R.id.title);
+                TextView brief = dView.findViewById(R.id.brief);
+                if (title!=null) title.setText(bannerItems.get(pos).name);
+                if (brief!=null) brief.setText(bannerItems.get(pos).brief);
                 addBottomDots(layout_dots, adapterImageSlider.getCount(), pos);
             }
 
@@ -206,6 +193,7 @@ public class ExploreFragment extends Fragment {
                 if(response.isSuccessful()) {
                     List<JsonObject> objList = response.body();
                     List<News> items = new ArrayList<>();
+                    // update banner on top
                     for (JsonObject obj:objList) {
                         News news = new News();
                         news.image = "http://spektasolusi.com:1337/" + obj.getAsJsonObject("image").get("url").getAsString();
@@ -213,8 +201,22 @@ public class ExploreFragment extends Fragment {
                         news.subtitle = obj.get("title").getAsString();
                         news.date = obj.get("createdAt").getAsString();
                         items.add(news);
+                        Image objAdd = new Image();
+                        objAdd.url = news.image;
+                        objAdd.name = obj.get("title").getAsString();
+                        objAdd.brief = news.date;
+                        bannerItems.add(objAdd);
                         System.out.println("------------------>  " + obj.get("title") + ", image: " + obj.getAsJsonObject("image").get("url").getAsString());
                     }
+                    adapterImageSlider.setItems(bannerItems);
+                    viewPager.setAdapter(adapterImageSlider);
+
+                    // displaying selected image first
+                    viewPager.setCurrentItem(0);
+                    addBottomDots(layout_dots, adapterImageSlider.getCount(), 0);
+                    ((TextView) dView.findViewById(R.id.title)).setText(bannerItems.get(0).name);
+                    ((TextView) dView.findViewById(R.id.brief)).setText(bannerItems.get(0).brief);
+                    startAutoSlider(adapterImageSlider.getCount());
 
                     //set data and list adapter
                     mAdapter = new AdapterListNews(getContext(), items, R.layout.item_news_light);
@@ -223,7 +225,7 @@ public class ExploreFragment extends Fragment {
                     mAdapter.setOnItemClickListener(new AdapterListNews.OnItemClickListener() {
                         @Override
                         public void onItemClick(View view, News obj, int position) {
-                            Snackbar.make(getView().findViewById(R.id.parent_view), "Item " + obj.subtitle + " clicked", Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(dView.findViewById(R.id.parent_view), "Item " + obj.subtitle + " clicked", Snackbar.LENGTH_SHORT).show();
                         }
                     });
                 } else {
@@ -235,9 +237,29 @@ public class ExploreFragment extends Fragment {
                 t.printStackTrace();
             }
         });
+
+        SpektaInterface spektaApi = new SpektaAPI().getInstance();
+        JsonObject loginData = new JsonObject();
+        loginData.addProperty("identifier", "admin");
+        loginData.addProperty("password", "password");
+        Call<JsonObject> callLogin = spektaApi.login(loginData);
+        callLogin.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if(response.isSuccessful()) {
+                    JsonObject obj = response.body();
+                    System.out.println("---- JWT -------------->  " + obj.get("jwt"));
+                } else {
+                    System.out.println(response.errorBody());
+                }
+            }
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -262,37 +284,30 @@ public class ExploreFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 
     private void addBottomDots(LinearLayout layout_dots, int size, int current) {
-        ImageView[] dots = new ImageView[size];
+        Context dContext = getContext();
+        if (dContext != null) {
+            ImageView[] dots = new ImageView[size];
 
-        layout_dots.removeAllViews();
-        for (int i = 0; i < dots.length; i++) {
-            dots[i] = new ImageView(getContext());
-            int width_height = 15;
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(new ViewGroup.LayoutParams(width_height, width_height));
-            params.setMargins(10, 10, 10, 10);
-            dots[i].setLayoutParams(params);
-            dots[i].setImageResource(R.drawable.shape_circle_outline);
-            layout_dots.addView(dots[i]);
-        }
+            layout_dots.removeAllViews();
+            for (int i = 0; i < dots.length; i++) {
+                dots[i] = new ImageView(dContext);
+                int width_height = 15;
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(new ViewGroup.LayoutParams(width_height, width_height));
+                params.setMargins(10, 10, 10, 10);
+                dots[i].setLayoutParams(params);
+                dots[i].setImageResource(R.drawable.shape_circle_outline);
+                layout_dots.addView(dots[i]);
+            }
 
-        if (dots.length > 0) {
-            dots[current].setImageResource(R.drawable.shape_circle);
+            if (dots.length > 0) {
+                dots[current].setImageResource(R.drawable.shape_circle);
+            }
         }
     }
 
@@ -304,10 +319,10 @@ public class ExploreFragment extends Fragment {
                 pos = pos + 1;
                 if (pos >= count) pos = 0;
                 viewPager.setCurrentItem(pos);
-                handler.postDelayed(runnable, 3000);
+                handler.postDelayed(runnable, 10000);
             }
         };
-        handler.postDelayed(runnable, 3000);
+        handler.postDelayed(runnable, 10000);
     }
 
 
@@ -359,7 +374,7 @@ public class ExploreFragment extends Fragment {
 
             ImageView image = (ImageView) v.findViewById(R.id.image);
             MaterialRippleLayout lyt_parent = (MaterialRippleLayout) v.findViewById(R.id.lyt_parent);
-            Tools.displayImageOriginal(act, image, o.image);
+            Tools.displayImageOriginal(act, image, o.url);
             lyt_parent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {

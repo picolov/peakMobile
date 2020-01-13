@@ -6,6 +6,7 @@ public class Image {
 
     public int image;
     public Drawable imageDrw;
+    public String url;
     public String name;
     public String brief;
     public Integer counter = null;
